@@ -1,4 +1,14 @@
-<div id='container' class='link' ng-repeat='link in data.links'>
+<div class='navigation' ng-controller='AuthController'>
+  <ul>
+    <li><a href='#/links' class='index'>All Links</a></li>
+    <li><a href='#/shorten' class='create'>Shorten</a></li>
+    <li><a href='#/logout' class='logout' ng-click='logout()'>Logout</a></li>
+  </ul>
+</div>
+  <form >
+    <input class='text filter' type='text' name='url' ng-model='link.filter'>
+</form>
+<div id='container' class='link' ng-repeat='link in data.links | orderBy : "visits" | filter : {"title" : link.filter}'>
   <img src='/redirect_icon.png'/>
   <div class='info '>
     <div class='visits'><span class='count'>{{ link.visits }}</span>Visits</div>

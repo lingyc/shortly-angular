@@ -23,7 +23,12 @@ angular.module('shortly', [
     .when('/links', {
       templateUrl: 'app/links/links.html',
       controller: 'LinksController',
-      authenticate: true
+      authenticate: true,
+      resolve: {
+        link: function(Links) {
+          return Links.getAll();
+        }
+      }
     })
     .when('/shorten', {
       templateUrl: 'app/shorten/shorten.html',
@@ -75,3 +80,9 @@ angular.module('shortly', [
     }
   });
 });
+
+// shortly.directive('shortened-link', function() {
+//   directive = {};
+//   directive.restrict = 'E';
+//   directive.template  = ''
+// });
