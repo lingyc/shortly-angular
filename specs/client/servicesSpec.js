@@ -40,6 +40,7 @@ describe('Services', function () {
       $httpBackend.expect('GET', '/api/links').respond(mockResponse);
 
       Links.getAll().then(function (links) {
+        console.log(links, " LINKS");
         expect(links).to.deep.equal(mockResponse);
       });
 

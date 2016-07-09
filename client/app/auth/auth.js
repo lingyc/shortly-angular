@@ -1,6 +1,8 @@
 // do not tamper with this code in here, study it, but do not touch
 // this Auth controller is responsible for our client side authentication
 // in our signup/signin forms using the injected Auth service
+var rValidUsername = /^[a-z][a-z0-9_\.]{0,24}$/i;
+
 angular.module('shortly.auth', [])
 
 .controller('AuthController', function ($scope, $window, $location, Auth) {
@@ -26,5 +28,13 @@ angular.module('shortly.auth', [])
       .catch(function (error) {
         console.error(error);
       });
+  };
+
+  $scope.checkValidUsername = function () {
+    return !!($scope.user.username.match(rValidUsername));
+  };
+
+  $scope.logout = function() {
+    Auth.signout();
   };
 });

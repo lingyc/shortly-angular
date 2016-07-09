@@ -1,5 +1,11 @@
-<div id='container'>
+<div id='container' class='creator'>
 <!-- Your code here -->
+  <form ng-submit='addLink()'>
+      <input class='text shortenform' type='text' name='url' ng-model='link.url'>
+      <input type='submit' value='Shorten' class='shortenbutton'>
+      <div ng-hide='checkValidUrl()'>Not a valid URL</div>
+  </form>
+  <div class='message'></div>
 
 </div>
 
