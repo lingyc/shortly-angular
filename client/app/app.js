@@ -3,24 +3,30 @@ angular.module('shortly', [
   'shortly.links',
   'shortly.shorten',
   'shortly.auth',
-  'ngRoute'
+  'ngRoute',
+  'ui.router'
 ])
-.config(function ($routeProvider, $httpProvider) {
-  $routeProvider
-    .when('/', {
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+  $urlRouterProvider.otherwise('/signin');
+  $stateProvider
+    .state('home', {
+      url: '/',
       templateUrl: 'app/auth/signin.html',
       controller: 'AuthController'
     })
-    .when('/signin', {
+    .state('signin', {
+      url: '/signin',
       templateUrl: 'app/auth/signin.html',
       controller: 'AuthController',
     })
-    .when('/signup', {
+    .state('signup', {
+      url: '/signup',
       templateUrl: 'app/auth/signup.html',
       controller: 'AuthController'
     })
     // Your code here
-    .when('/links', {
+    .state('links', {
+      url: '/links',
       templateUrl: 'app/links/links.html',
       controller: 'LinksController',
       authenticate: true,
@@ -30,19 +36,16 @@ angular.module('shortly', [
         }
       }
     })
-    .when('/shorten', {
+    .state('shorten', {
+      url: '/shorten',
       templateUrl: 'app/shorten/shorten.html',
       controller: 'ShortenController',
       authenticate: true
     })
-    .when('/*', {
-      templateUrl: 'app/links/links.html',
-      controller: 'LinksController',
-      authenticate: true
-    })
-    .otherwise({
-      redirectTo: '/links'
-    });
+    // .state('otherwise', {
+    //   url: '*path',
+    //   redirectTo: '/links'
+    // });
     // We add our $httpInterceptor into the array
     // of interceptors. Think of it like middleware for your ajax calls
   $httpProvider.interceptors.push('AttachTokens');
@@ -73,7 +76,7 @@ angular.module('shortly', [
   // and send that token to the server to see if it is a real user or hasn't expired
   // if it's not valid, we then redirect back to signin/signup
   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
-      console.log('evt: ', evt, 'next: ', next, 'current: ', current);
+    console.log('evt: ', evt, 'next: ', next, 'current: ', current);
     if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
       console.log('authorizing');
       $location.path('/signin');
@@ -84,5 +87,5 @@ angular.module('shortly', [
 // shortly.directive('shortened-link', function() {
 //   directive = {};
 //   directive.restrict = 'E';
-//   directive.template  = ''
+//   directive.template  = '';
 // });
